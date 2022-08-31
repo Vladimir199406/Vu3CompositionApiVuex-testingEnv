@@ -1,5 +1,7 @@
 # vuex-ts-project
-
+```
+appToTest different builds/dif tech/dif libraries... (ONLY FOR TESTING CASES)
+```
 ## Project setup
 ```
 npm install
