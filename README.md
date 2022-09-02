@@ -2,6 +2,7 @@
 ```
 appToTest different builds/dif tech/dif libraries... (ONLY FOR TESTING CASES)
 ```
+## project short description setup env: comp-api && ts && vuex && min desktop ui with bulma
 ## Project setup
 ```
 npm install
