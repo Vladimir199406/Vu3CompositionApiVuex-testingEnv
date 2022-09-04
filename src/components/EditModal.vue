@@ -75,6 +75,7 @@ export default {
   props: {
     id: { type: Number, required: true },
   },
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
   setup(props: any) {
     /*
      data
@@ -89,6 +90,7 @@ export default {
     /*
      computed
     */
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const getTaskById = computed(() =>
       store.getters.getTaskById(Number(props.id))
     );

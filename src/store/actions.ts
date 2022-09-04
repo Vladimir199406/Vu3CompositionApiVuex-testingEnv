@@ -1,12 +1,14 @@
 import { ActionContext, ActionTree } from "vuex";
 import { Mutations, MutationType } from "./mutations";
-import { State } from "./state";
+import { State, TaskItem } from "./state";
+import axios from "axios";
 
 //enum Actions
 export enum ActionTypes {
   GetTaskItems = "GET_Task_ITEMS",
   SetCreateModal = "SET_CREATE_MODAL",
   SetEditModal = "SET_EDIT_MODAL",
+  CreateNewTask = "CREATE_NEW_TASK",
 }
 
 //type ActionAugments
@@ -22,6 +24,7 @@ export type Actions = {
   [ActionTypes.GetTaskItems](context: ActionAugments): void;
   [ActionTypes.SetCreateModal](context: ActionAugments): void;
   [ActionTypes.SetEditModal](context: ActionAugments): void;
+  [ActionTypes.CreateNewTask](context: ActionAugments, task: TaskItem): void;
 };
 
 //delay local
@@ -33,23 +36,31 @@ export const actions: ActionTree<State, State> & Actions = {
     commit(MutationType.SetLoading, true);
     await sleep(1000);
     commit(MutationType.SetLoading, false);
-    commit(MutationType.SetTasks, [
-      {
-        id: 1,
-        title: "Create a new programming language",
-        description:
-          "lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem",
-        createdBy: "lorem lorem",
-        assignedTo: "lorem lorem",
-        completed: false,
-        editing: false,
-      },
-    ]);
+    axios
+      .get("http://localhost:3001/tasks")
+      .then((response) => {
+        commit(MutationType.SetTasks, response.data);
+        console.log("tasks", response.data);
+      })
+      .catch((error) => {
+        console.log("Erorr: ", error.message);
+      });
   },
   async [ActionTypes.SetCreateModal]({ commit }) {
     commit(MutationType.SetCreateModal, true);
   },
   async [ActionTypes.SetEditModal]({ commit }) {
     commit(MutationType.SetEditModal, { showModal: true, taskId: 1 });
+  },
+  async [ActionTypes.CreateNewTask]({ commit }, task: TaskItem) {
+    await axios
+      .post("http://localhost:3001/tasks", task)
+      .then((response) => {
+        commit(MutationType.SetTasks, response.data);
+        console.log("Task created, new Tasks: ", response.data);
+      })
+      .catch((error) => {
+        console.log("Error: ", error.message);
+      });
   },
 };

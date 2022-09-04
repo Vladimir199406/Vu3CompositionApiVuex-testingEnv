@@ -39,11 +39,11 @@ export type Mutations = {
   [MutationType.SetCreateModal](state: State, value: boolean): void;
   [MutationType.SetEditModal](
     state: State,
-    value: { showModal: boolean; taskId: number | any }
+    value: { showModal: boolean; taskId: number | null }
   ): void;
   [MutationType.SetTaskModal](
     state: State,
-    value: { showModal: boolean; taskId: number | any }
+    value: { showModal: boolean; taskId: number | null }
   ): void;
 };
 
@@ -53,7 +53,7 @@ export const mutations: MutationTree<State> & Mutations = {
     state.tasks.unshift(task);
   },
   [MutationType.SetTasks](state, tasks) {
-    state.tasks = tasks;
+    state.tasks = tasks.reverse();
   },
   [MutationType.CompleteTask](state, newTask) {
     const task = state.tasks.findIndex((element) => element.id === newTask.id);
