@@ -9,6 +9,7 @@ export enum ActionTypes {
   SetCreateModal = "SET_CREATE_MODAL",
   SetEditModal = "SET_EDIT_MODAL",
   CreateNewTask = "CREATE_NEW_TASK",
+  RemoveTask = "REMOVE_TASK",
 }
 
 //type ActionAugments
@@ -25,6 +26,7 @@ export type Actions = {
   [ActionTypes.SetCreateModal](context: ActionAugments): void;
   [ActionTypes.SetEditModal](context: ActionAugments): void;
   [ActionTypes.CreateNewTask](context: ActionAugments, task: TaskItem): void;
+  [ActionTypes.RemoveTask](context: ActionAugments, task: TaskItem): void;
 };
 
 //delay local
@@ -58,6 +60,18 @@ export const actions: ActionTree<State, State> & Actions = {
       .then((response) => {
         commit(MutationType.SetTasks, response.data);
         console.log("Task created, new Tasks: ", response.data);
+      })
+      .catch((error) => {
+        console.log("Error: ", error.message);
+      });
+  },
+
+  async [ActionTypes.RemoveTask]({ commit }, task: TaskItem) {
+    await axios
+      .delete(`http://localhost:3001/tasks/${task.id}`)
+      .then((response) => {
+        commit(MutationType.RemoveTask, task);
+        console.log("Task was DELETED, new Tasks: ", response);
       })
       .catch((error) => {
         console.log("Error: ", error.message);
