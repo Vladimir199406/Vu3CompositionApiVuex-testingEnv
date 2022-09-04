@@ -43,7 +43,7 @@ export default defineComponent({
      methods
     */
     const toggleCompletion = () => {
-      store.commit(MutationType.CompleteTask, {
+      store.dispatch(ActionTypes.CompleteTask, {
         id: props.id,
         completed: !props.completed,
       });

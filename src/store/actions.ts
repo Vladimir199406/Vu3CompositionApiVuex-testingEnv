@@ -10,6 +10,8 @@ export enum ActionTypes {
   SetEditModal = "SET_EDIT_MODAL",
   CreateNewTask = "CREATE_NEW_TASK",
   RemoveTask = "REMOVE_TASK",
+
+  CompleteTask = "COMPLETE_TASK",
 }
 
 //type ActionAugments
@@ -27,6 +29,8 @@ export type Actions = {
   [ActionTypes.SetEditModal](context: ActionAugments): void;
   [ActionTypes.CreateNewTask](context: ActionAugments, task: TaskItem): void;
   [ActionTypes.RemoveTask](context: ActionAugments, task: TaskItem): void;
+
+  [ActionTypes.CompleteTask](context: ActionAugments, task: TaskItem): void;
 };
 
 //delay local
@@ -72,6 +76,20 @@ export const actions: ActionTree<State, State> & Actions = {
       .then((response) => {
         commit(MutationType.RemoveTask, task);
         console.log("Task was DELETED, new Tasks: ", response);
+      })
+      .catch((error) => {
+        console.log("Error: ", error.message);
+      });
+  },
+
+  async [ActionTypes.CompleteTask]({ commit }, task: TaskItem) {
+    await axios
+      .patch(`http://localhost:3001/tasks/${task.id}`, {
+        completed: task.completed ? true : false,
+      })
+      .then((response) => {
+        commit(MutationType.CompleteTask, task);
+        console.log("Task was COMPLEATED: ", response);
       })
       .catch((error) => {
         console.log("Error: ", error.message);
