@@ -68,6 +68,8 @@ import { reactive, toRefs } from "vue";
 import { useStore } from "@/store";
 import { TaskItem } from "@/store/state";
 import { MutationType } from "@/store/mutations";
+import { ActionTypes } from "@/store/actions";
+
 export default {
   name: "CreateModal",
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -102,7 +104,10 @@ export default {
         completed: false,
         editing: false,
       };
+
       store.commit(MutationType.CreateTask, task);
+      store.dispatch(ActionTypes.CreateNewTask, task);
+
       state.title = "";
       state.createdBy = "";
       state.assignedTo = "";

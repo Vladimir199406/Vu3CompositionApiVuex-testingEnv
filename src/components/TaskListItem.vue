@@ -18,10 +18,12 @@
     </span>
   </td>
 </template>
+
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useStore } from "@/store";
 import { MutationType } from "@/store/mutations";
+import { ActionTypes } from "@/store/actions";
 
 export default defineComponent({
   props: {
@@ -41,14 +43,14 @@ export default defineComponent({
      methods
     */
     const toggleCompletion = () => {
-      store.commit(MutationType.CompleteTask, {
+      store.dispatch(ActionTypes.CompleteTask, {
         id: props.id,
         completed: !props.completed,
       });
     };
 
     const removeTask = () => {
-      store.commit(MutationType.RemoveTask, {
+      store.dispatch(ActionTypes.RemoveTask, {
         id: props.id,
       });
     };

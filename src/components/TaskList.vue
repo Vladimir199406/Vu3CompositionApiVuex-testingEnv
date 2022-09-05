@@ -1,27 +1,29 @@
 <template>
-  <table class="table">
-    <thead>
-      <tr>
-        <th><abbr title="Position">Task Id</abbr></th>
-        <th>Completed</th>
-        <th>Task</th>
-        <th><abbr title="Won">Created By</abbr></th>
-        <th><abbr title="Drawn">Assigned To</abbr></th>
-        <th><abbr title="Lost">Actions</abbr></th>
-      </tr>
-    </thead>
-    <tbody v-if="tasks">
-      <tr v-for="task in tasks" :key="task.id">
-        <TaskListItem v-bind="task" />
-      </tr>
-    </tbody>
-    <tfoot>
-      <CreateModal v-show="showCreateModal"></CreateModal>
-      <button class="button is-link" @click="setModal">Create Task</button>
-    </tfoot>
-  </table>
-  <EditModal v-if="showEditModal" :id="editTaskId"></EditModal>
-  <TaskItem v-if="showTaskModal" :id="showTaskId"></TaskItem>
+  <div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th><abbr title="Position">Task Id</abbr></th>
+          <th>Completed</th>
+          <th>Task</th>
+          <th><abbr title="Won">Created By</abbr></th>
+          <th><abbr title="Drawn">Assigned To</abbr></th>
+          <th><abbr title="Lost">Actions</abbr></th>
+        </tr>
+      </thead>
+      <tbody v-if="tasks">
+        <tr v-for="task in tasks" :key="task.id">
+          <TaskListItem v-bind="task" />
+        </tr>
+      </tbody>
+      <tfoot>
+        <CreateModal v-show="showCreateModal"></CreateModal>
+        <button class="button is-link" @click="setModal">Create Task</button>
+      </tfoot>
+    </table>
+    <EditModal v-if="showEditModal" :id="editTaskId"></EditModal>
+    <TaskItem v-if="showTaskModal" :id="showTaskId"></TaskItem>
+  </div>
 </template>
 <script>
 import CreateModal from "./CreateModal";
