@@ -13,6 +13,12 @@ npm install
 npm run serve
 ```
 
+### Json-server
+
+```
+npm run db:serve
+```
+
 ### Compiles and minifies for production
 ```
 npm run build
